@@ -1,4 +1,4 @@
-scrapping
+scraping
 =========
 
-Trying Web Scrapping
+Trying Web Scraping
