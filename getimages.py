@@ -1,38 +1,32 @@
-import urllib 
-import mechanize 
+import requests 
 from bs4 import BeautifulSoup
-from urlparse import urlparse
-import hashlib
+import os
+import urllib 
+
 
 def getPic(search):
     
     #replace spaces by %20 for searching    
-    search = search.replace(" ","%20")
-    try:
-        browser = mechanize.Browser()
-        browser.set_handle_robots(False)
-        browser.addheaders = [('User-agent','Mozilla')]
-
-        htmltext = browser.open("https://www.google.com/search?site=imghp&tbm=isch&source=hp&biw=1414&bih=709&q="+search+"&oq="+search)
-        img_urls = []
-        formatted_images = []
-        soup = BeautifulSoup(htmltext)
-        results = soup.findAll("a")
-        for r in results:
-            try:
-                if "imgres?imgurl" in r['href']:
-                    img_urls.append(r['href'])
-            except:
-                a=0
-        for im in img_urls:
-            refer_url = urlparse(str(im))
-            image_f = refer_url.query.split("&")[0].replace("imgurl=","")
-            formatted_images.append(image_f)
+        search = search.replace(" ","%20")
+        url = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&biw=1414&bih=709&q="+search+"&oq="+search
+                
+        r = requests.get(url)
+                
+        data = r.text
         
-        return  formatted_images
-
-    except:
-        print "error"
-
-
-print getPic("cars and music")   
+        soup = BeautifulSoup(data)
+        results = soup.findAll("img")
+        count = 1
+        for r in results :
+                #print "%(src)s" % r 
+                #file_dest = r["src"].split("/")[-1]
+                post = os.path.join('', str(count) + ".jpg")
+                with open(post, 'w') as f:
+                        if r["src"].lower().startswith("http"):
+                                urllib.urlretrieve(r["src"], post)
+                        else:
+                                urlretrieve(urlparse.urlunparse(parsed), path)
+                count = count + 1
+                        
+#give paramter in method getpic() to download images.                                                        
+getPic("cars and music")   
