@@ -10,22 +10,24 @@ def decimal_default(obj):
     raise TypeError
 
 def get_quotes():
-        url="https://www.goodreads.com/quotes/list/33276343"
-        r = requests.get(url)
-        c=0        
-        data = r.text
-        post = os.path.join('','quotes'+".json")
-        soup = BeautifulSoup(data)
-        results = soup.findAll('div', attrs={'class':'quoteText'})
-        for r in results:
-                with open(post, 'a') as f:
-                        x = r.findAll(text=True)
-                        json.dump(x, f, indent=1, default=decimal_default)   
-                        c+=1                        
-                       
+        count =0
+        c=0
+        with open('quotes.json','w') as f1:
+                
+                for count in range(10):
+                        url="https://www.goodreads.com/quotes/list/33276343?page="+str(count+1)
+                        r = requests.get(url)
+                        print url      
+                        data = r.text
+                        post = os.path.join('','quotes'+".json")
+                        soup = BeautifulSoup(data)
+                        results = soup.findAll('div', attrs={'class':'quoteText'})
+                        for r in results:
+                                with open(post, 'a') as f:
+                                        x = r.findAll(text=True)
+                                        json.dump(x, f, indent=1, default=decimal_default)   
+                                        c+=1                        
+                                       
         print c    
-        
-
-
-        
+         
 get_quotes()
