@@ -11,16 +11,17 @@ def getemails(url):
 
     Returns
     -------
-    list
-        A list of email ids.
+    set
+        A set of email ids.
     """
     page = requests.get(url)
     print(page)
 
     # regex
     regex_email = re.compile(r'([\w\.,]+@[\w\.,]+\.\w+)')
-    emails = set(regex_email.findall(page.text))
-    return emails
+
+    emails = regex_email.findall(page.text)
+    return set(emails)
 
 if __name__ == '__main__':
     print(getemails('http://www.realpython.com'))
