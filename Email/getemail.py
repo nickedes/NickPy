@@ -1,3 +1,7 @@
+import re
+import requests
+
+
 def getemails(url):
     """Gives a list of email ids found in the given url.
 
@@ -10,4 +14,13 @@ def getemails(url):
     list
         A list of email ids.
     """
-    pass
+    page = requests.get(url)
+    print(page)
+
+    # regex
+    regex_email = re.compile(r'([\w\.,]+@[\w\.,]+\.\w+)')
+    emails = set(regex_email.findall(page.text))
+    return emails
+
+if __name__ == '__main__':
+    print(getemails('http://www.realpython.com'))
