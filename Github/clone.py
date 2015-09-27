@@ -14,5 +14,4 @@ def getRepos():
 if __name__ == '__main__':
     all_repos = getRepos()
     for repo in all_repos:
-        print('git clone ' + repo.clone_url)
         os.system('git clone ' + repo.clone_url)
