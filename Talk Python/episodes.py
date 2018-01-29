@@ -6,7 +6,7 @@ from requests import get
 url = 'http://talkpython.fm/episodes/download/'
 location = '/home/nickedes/Music/Talk Python/'
 
-for num in range(1, 30):
+for num in range(8, 30):
     response = get(url+str(num)+'/')
     print(response.status_code)
     # if response.status_code == '200':
